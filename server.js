@@ -7,7 +7,7 @@ dotenv.config();
 
 const app = express();
 
-const urlpath = '';
+const sub_folder_name = process.env.SUB_FOLDER_NAME;
 const port = process.env.port || 3000;
 
 // Database Connection
@@ -22,17 +22,17 @@ const connection = mysql.createConnection({
 // Middleware
 app.use(express.json());
 
-app.get(urlpath+'/', (req, res)=>{
+app.get(sub_folder_name + '/', (req, res)=>{
     res.send({name: "Rehan"}).status(200);
 });
 
-app.get(urlpath+'/add', (req, res)=>{
+app.get(sub_folder_name + '/add', (req, res)=>{
     connection.connect();
     const id = req.query.id
     res.send(id).status(200);
 });
 
-app.get(urlpath+'/todolist/:id', (req, res)=>{
+app.get(sub_folder_name + '/todolist/:id', (req, res)=>{
     connection.connect();
     const id = req.params.id;
     console.log(id)
@@ -42,7 +42,7 @@ app.get(urlpath+'/todolist/:id', (req, res)=>{
     });
 });
 
-app.get(urlpath+'/todolist', (req, res)=>{
+app.get(sub_folder_name + '/todolist', (req, res)=>{
     connection.connect();
     connection.query("SELECT * FROM todolist", (err, result, fields)=>{
         if (err) throw err;
@@ -50,7 +50,7 @@ app.get(urlpath+'/todolist', (req, res)=>{
     });
 });
 
-app.post(urlpath+'/todolist', (req, res)=>{
+app.post(sub_folder_name + '/todolist', (req, res)=>{
     connection.connect();
     const heading = req.body.heading;
     const note = req.body.note;
@@ -61,7 +61,7 @@ app.post(urlpath+'/todolist', (req, res)=>{
     });
 });
 
-app.put(urlpath+'/todolist', (req, res)=>{
+app.put(sub_folder_name + '/todolist', (req, res)=>{
     connection.connect();
     const heading = req.body.heading;
     const note = req.body.note;
@@ -73,7 +73,7 @@ app.put(urlpath+'/todolist', (req, res)=>{
     });
 });
 
-app.delete(urlpath+'/todolist/:id', (req, res)=>{
+app.delete(sub_folder_name + '/todolist/:id', (req, res)=>{
     connection.connect();
     const id = req.params.id;
     connection.query("DELETE FROM todolist WHERE id=? LIMIT 1", [id], (err, result, fields)=>{
